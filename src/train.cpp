@@ -1,6 +1,5 @@
 // Copyright 2021 NNTU-CS
 #include "train.h"
-#include "train.h"
 Train::Cage* Train::create(bool light) {
   Cage* cage = new Cage;
   cage->light = light;
