@@ -1,5 +1,6 @@
 // Copyright 2021 NNTU-CS
 #include "train.h"
+
 Train::Cage* Train::create(bool light) {
   Cage* cage = new Cage;
   cage->light = light;
@@ -7,6 +8,7 @@ Train::Cage* Train::create(bool light) {
   cage->prev = nullptr;
   return cage;
 }
+
 void Train::addCage(bool light) {
   if (last && first) {
     last->next = create(light);
@@ -19,29 +21,42 @@ void Train::addCage(bool light) {
       last = first;
     }
 }
+
 int Train::getLength() {
-  int len = 0;
+  int length = 0;
   first->light = true;
   Cage* tempor = first;
   while (true) {
-    len += 1;
-    for (int j = 0; j < len; ++j) {
+    length += 1;
+    for (int j = 0; j < length; ++j) {
       tempor = tempor->next;
       countOp += 1;
     }
     if (tempor->light) {
       tempor->light = false;
-      for (int i = 0; i < len; ++i) {
+      for (int j = 0; j < length; ++j) {
         tempor = tempor->prev;
         countOp += 1;
       }
     } else {
         while (!tempor->light) {
-          len += 1;
+          length += 1;
           tempor = tempor->next;
-          @@ - 58, 6 + 57, 6 @@ int Train::getLength() {
-            return len;
+          countOp += 1;
+        }
+        tempor->light = false;
+          for (int j = 0; j < length; ++j) {
+            tempor = tempor->prev;
+            countOp += 1;
           }
+      }
+      if (!tempor->light) {
+        break;
+      }
+    }
+  return length;
+}
+
 int Train::getOpCount() {
   return countOp;
 }
